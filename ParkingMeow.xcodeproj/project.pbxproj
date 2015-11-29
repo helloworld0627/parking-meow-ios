@@ -14,6 +14,7 @@
 		C05D0CEF1C0B8B9D001F2EBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C05D0CED1C0B8B9D001F2EBB /* LaunchScreen.storyboard */; };
 		C05D0CFA1C0B8B9D001F2EBB /* ParkingMeowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D0CF91C0B8B9D001F2EBB /* ParkingMeowTests.swift */; };
 		C05D0D051C0B8B9D001F2EBB /* ParkingMeowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D0D041C0B8B9D001F2EBB /* ParkingMeowUITests.swift */; };
+		C05D0D131C0B8DC3001F2EBB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C05D0D121C0B8DC3001F2EBB /* MapKit.framework */; };
 		FF9C3C8E2036D54F1F58946F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FD685BC191639B0D010030 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		C05D0D001C0B8B9D001F2EBB /* ParkingMeowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkingMeowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C05D0D041C0B8B9D001F2EBB /* ParkingMeowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingMeowUITests.swift; sourceTree = "<group>"; };
 		C05D0D061C0B8B9D001F2EBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C05D0D121C0B8DC3001F2EBB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C05D0D131C0B8DC3001F2EBB /* MapKit.framework in Frameworks */,
 				FF9C3C8E2036D54F1F58946F /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,6 +85,7 @@
 		2BB5230EE61815782DC14B16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C05D0D121C0B8DC3001F2EBB /* MapKit.framework */,
 				42FD685BC191639B0D010030 /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -219,6 +223,11 @@
 				TargetAttributes = {
 					C05D0CE01C0B8B9D001F2EBB = {
 						CreatedOnToolsVersion = 7.0.1;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					C05D0CF41C0B8B9D001F2EBB = {
 						CreatedOnToolsVersion = 7.0.1;
