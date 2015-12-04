@@ -5,10 +5,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="DUr-bv-cgE">
             <objects>
-                <viewController id="ofY-8k-hJy" customClass="ViewController" customModule="ParkingMeow" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ofY-8k-hJy" customClass="MapViewController" customModule="ParkingMeow" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="v8e-Z7-fl0"/>
                         <viewControllerLayoutGuide type="bottom" id="3RJ-tw-RfQ"/>
@@ -39,7 +39,7 @@
         <!--Root View Controller-->
         <scene sceneID="Kd7-fG-0VE">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="ht0-L0-o1y" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="ht0-L0-o1y" customClass="SearchTableViewController" customModule="ParkingMeow" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="W0j-TJ-Pna">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -325,8 +325,22 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="7am-Ix-II5">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="coS-ZO-O2B"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="coS-ZO-O2B">
+                            <connections>
+                                <action selector="actionForSearch:" destination="ht0-L0-o1y" id="19R-dI-rhP"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="monFriSwitch" destination="GQh-ns-rfp" id="kQD-Aj-cBD"/>
+                        <outlet property="rate1HrTextField" destination="NQS-aS-DMO" id="79z-eT-FcK"/>
+                        <outlet property="rate2HrTextField" destination="FfW-3o-7Or" id="YhY-Ol-u4c"/>
+                        <outlet property="rate3HrTextField" destination="zuA-9W-EXo" id="N1z-k9-x9l"/>
+                        <outlet property="rateAllDayTextField" destination="npD-JW-guP" id="lk4-UR-h1E"/>
+                        <outlet property="satSwitch" destination="She-Pa-sSF" id="TUR-2G-HG6"/>
+                        <outlet property="searchBarButtonItem" destination="coS-ZO-O2B" id="yGD-TM-n4H"/>
+                        <outlet property="sunSwitch" destination="mPC-5g-n0h" id="u1j-e0-Cfg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZtX-OH-U6A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

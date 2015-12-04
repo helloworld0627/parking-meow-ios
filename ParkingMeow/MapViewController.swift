@@ -8,21 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MapViewController: UIViewController, SearchTableViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        ParkingMeowAPIClient.sharedInstance.getParkingLots { (parkingLots, error) -> Void in
-            if let error = error {
-                print(error)
-            } else {
-                print(parkingLots)
-            }
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,6 +20,8 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    func onSearchResultReturned(result: [ParkingLot]?, error: NSError?) {
+        print(result)
+    }
 }
 

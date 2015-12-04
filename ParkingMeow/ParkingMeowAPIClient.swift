@@ -29,17 +29,11 @@ class ParkingMeowAPIClient {
 
                 do {
                     let jsonArray = result.value as! [AnyObject]
-                    let parkingLots = try MTLJSONAdapter.modelsOfClass(ParkingLot.self, fromJSONArray: jsonArray)
-                    for p in parkingLots {
-                        print(p.parkingRates)
-                        print(p.parkingBusinessHours)
-                    }
-                    let r = parkingLots as! [ParkingLot]
-                    completion(parkingLots: r, error: nil)
+                    let parkingLots = try MTLJSONAdapter.modelsOfClass(ParkingLot.self, fromJSONArray: jsonArray) as! [ParkingLot]
+                    completion(parkingLots: parkingLots, error: nil)
                 } catch let e {
                     let k = e as NSError
                     completion(parkingLots: nil, error: k)
-                    print(e)
                 }
             }
     }
