@@ -30,6 +30,8 @@ class MapViewController: UIViewController, SearchTableViewControllerDelegate, MK
             return
         }
 
+        // clear annotatoins
+        mapView.removeAnnotations(mapView.annotations)
         if let parkingLots = result {
             //var annotations : [MKPointAnnotation] = []
             for parkingLot in parkingLots {
@@ -37,7 +39,7 @@ class MapViewController: UIViewController, SearchTableViewControllerDelegate, MK
                 let long = Double(parkingLot.longitude!)
                 let lat = Double(parkingLot.latitude!)
                 annotation.coordinate = CLLocationCoordinate2DMake(lat, long)
-                annotation.title = parkingLot.webname
+                annotation.title = String(parkingLot.id)
                 mapView.addAnnotation(annotation)
             }
 
