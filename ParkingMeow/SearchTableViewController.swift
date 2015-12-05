@@ -48,9 +48,9 @@ class SearchTableViewController: UITableViewController {
 
     @IBAction func actionForSearch(sender: AnyObject) {
         var params : [String : AnyObject] = [ : ]
-        params[ParkingBusinessHour.HourType.MonFri.rawValue] = monFriSwitch.on
-        params[ParkingBusinessHour.HourType.Sat.rawValue] = satSwitch.on
-        params[ParkingBusinessHour.HourType.Sun.rawValue] = sunSwitch.on
+        params[ParkingBusinessHour.HourType.MonFri.rawValue] = monFriSwitch.on ? "true" : "false"
+        params[ParkingBusinessHour.HourType.Sat.rawValue] = satSwitch.on ? "true" : "false"
+        params[ParkingBusinessHour.HourType.Sun.rawValue] = sunSwitch.on ? "true" : "false"
 
         if rate1HrTextField.text?.isEmpty == false {
             params[ParkingRate.RateType.OneHour.rawValue] = Double(rate1HrTextField.text!)
