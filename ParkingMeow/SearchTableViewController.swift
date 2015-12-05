@@ -47,14 +47,41 @@ class SearchTableViewController: UITableViewController {
     }
 
     @IBAction func actionForSearch(sender: AnyObject) {
-        ParkingMeowAPIClient.sharedInstance.getParkingLots { (parkingLots, error) -> Void in
-            if let error = error {
-                self.delegate?.onSearchResultReturned(nil, error: error)
-            } else {
-                self.delegate?.onSearchResultReturned(parkingLots, error: nil)
-            }
+        var params : [String : AnyObject] = [ : ]
+        params[ParkingBusinessHour.HourType.MonFri.rawValue] = monFriSwitch.on
+        params[ParkingBusinessHour.HourType.Sat.rawValue] = satSwitch.on
+        params[ParkingBusinessHour.HourType.Sun.rawValue] = sunSwitch.on
+
+        if rate1HrTextField.text?.isEmpty == false {
+            params[ParkingRate.RateType.OneHour.rawValue] = Double(rate1HrTextField.text!)
+        }
+        if rate2HrTextField.text?.isEmpty == false {
+            params[ParkingRate.RateType.TwoHour.rawValue] = Double(rate2HrTextField.text!)
+        }
+        if rate3HrTextField.text?.isEmpty == false {
+            params[ParkingRate.RateType.ThreeHour.rawValue] = Double(rate3HrTextField.text!)
+        }
+        if rateAllDayTextField.text?.isEmpty == false {
+            params[ParkingRate.RateType.AllDay.rawValue] = Double(rateAllDayTextField.text!)
+        }
+
+        params["longtitude"] = "-122.3"
+        params["latitude"] = "47.6"
+
+        print(params)
+
+        ParkingMeowAPIClient.sharedInstance.getParkingLots(params)
+            { (parkingLots, error) -> Void in
+                if let error = error {
+                    self.delegate?.onSearchResultReturned(nil, error: error)
+                } else {
+                    self.delegate?.onSearchResultReturned(parkingLots, error: nil)
+                }
         }
     }
+
+
+
 
 
     // MARK: - Table view data source

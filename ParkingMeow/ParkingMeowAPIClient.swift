@@ -18,8 +18,8 @@ class ParkingMeowAPIClient {
     private init() {
     }
 
-    func getParkingLots(completion: ((parkingLots : [ParkingLot]?, error : NSError?) -> Void) ) {
-        Alamofire.request(.GET, apiPath, parameters: ["longtitude" : "-122.3", "latitude" : "47.6"])
+    func getParkingLots(parameters: [String : AnyObject]?, completion: ((parkingLots : [ParkingLot]?, error : NSError?) -> Void) ) {
+        Alamofire.request(.GET, apiPath, parameters: parameters)
             .responseJSON { (response) -> Void in
                 let result = response.result
                 if let error = result.error {
