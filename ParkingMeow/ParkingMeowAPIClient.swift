@@ -13,7 +13,7 @@ import Mantle
 class ParkingMeowAPIClient {
 
     static let sharedInstance = ParkingMeowAPIClient()
-    private let apiPath = "https://infinite-stream-9318.herokuapp.com/parking_lots"
+    private let apiPath = "http://localhost:3000/parking_lots"
 
     private init() {
     }
@@ -132,15 +132,21 @@ class ParkingLot: BaseResource {
 
     static func latitudeJSONTransformer() -> NSValueTransformer {
         return MTLValueTransformer.reversibleTransformerWithBlock({ (val) -> AnyObject! in
-            let strVal = val as! String
-            return Double(strVal)
+            if val != nil {
+                let strVal = val as! String
+                return Double(strVal)
+            }
+            return 0.0
         })
     }
 
     static func longitudeJSONTransformer() -> NSValueTransformer {
         return MTLValueTransformer.reversibleTransformerWithBlock({ (val) -> AnyObject! in
-            let strVal = val as! String
-            return Double(strVal)
+            if val != nil {
+                let strVal = val as! String
+                return Double(strVal)
+            }
+            return 0.0
         })
     }
 
@@ -182,8 +188,11 @@ class ParkingRate: BaseResource {
 
     static func priceJSONTransformer() -> NSValueTransformer {
         return MTLValueTransformer.reversibleTransformerWithBlock({ (val) -> AnyObject! in
-            let strVal = val as! String
-            return Double(strVal)
+            if val != nil {
+                let strVal = val as! String
+                return Double(strVal)
+            }
+            return 0.0
         })
     }
 }
