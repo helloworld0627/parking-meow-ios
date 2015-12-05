@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import MapKit
 
-class MapViewController: UIViewController, SearchTableViewControllerDelegate {
+class MapViewController: UIViewController, SearchTableViewControllerDelegate, MKMapViewDelegate {
+
+    @IBOutlet weak var mapView: MKMapView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        mapView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,7 +25,24 @@ class MapViewController: UIViewController, SearchTableViewControllerDelegate {
     }
 
     func onSearchResultReturned(result: [ParkingLot]?, error: NSError?) {
-        print(result)
+        if let error = error {
+            print(error)
+            return
+        }
+
+        if let parkingLots = result {
+            //var annotations : [MKPointAnnotation] = []
+            for parkingLot in parkingLots {
+                let annotation = MKPointAnnotation()
+                let long = Double(parkingLot.longitude!)
+                let lat = Double(parkingLot.latitude!)
+                annotation.coordinate = CLLocationCoordinate2DMake(lat, long)
+                annotation.title = parkingLot.webname
+                mapView.addAnnotation(annotation)
+            }
+
+            mapView.showAnnotations(mapView.annotations, animated: true)
+        }
     }
 }
 

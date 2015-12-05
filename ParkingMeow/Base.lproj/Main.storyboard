@@ -17,20 +17,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vcI-kM-5bq">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="KEC-aS-stf">
+                                <rect key="frame" x="0.0" y="20" width="600" height="579"/>
                                 <animations/>
                             </mapView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="vcI-kM-5bq" secondAttribute="trailing" id="2EQ-SN-1NG"/>
-                            <constraint firstItem="vcI-kM-5bq" firstAttribute="leading" secondItem="inW-0X-t4g" secondAttribute="leading" id="E9p-7e-FBO"/>
-                            <constraint firstItem="vcI-kM-5bq" firstAttribute="top" secondItem="inW-0X-t4g" secondAttribute="top" id="U69-rz-IKU"/>
-                            <constraint firstItem="vcI-kM-5bq" firstAttribute="bottom" secondItem="3RJ-tw-RfQ" secondAttribute="top" id="t6f-y8-Rgo"/>
+                            <constraint firstItem="3RJ-tw-RfQ" firstAttribute="top" secondItem="KEC-aS-stf" secondAttribute="bottom" constant="1" id="BoN-UV-8g9"/>
+                            <constraint firstItem="KEC-aS-stf" firstAttribute="leading" secondItem="inW-0X-t4g" secondAttribute="leading" id="TvE-0p-D5x"/>
+                            <constraint firstItem="KEC-aS-stf" firstAttribute="top" secondItem="v8e-Z7-fl0" secondAttribute="bottom" id="Zqt-Q6-ek0"/>
+                            <constraint firstAttribute="trailing" secondItem="KEC-aS-stf" secondAttribute="trailing" id="msd-nN-BpL"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="KEC-aS-stf" id="AmN-cH-7Al"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u9c-fg-ueP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
