@@ -100,3 +100,7 @@ class ParkingDetailsTableViewController: UITableViewController {
     */
 
 }
+
+class ParkingLotDetailTableCell : UITableViewCell {
+    
+}
