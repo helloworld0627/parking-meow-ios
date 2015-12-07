@@ -13,6 +13,8 @@ class MapViewController: UIViewController, SearchTableViewControllerDelegate, MK
 
     @IBOutlet weak var mapView: MKMapView!
 
+    var selectedParkingLot : ParkingLot?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -52,15 +54,44 @@ class MapViewController: UIViewController, SearchTableViewControllerDelegate, MK
                 dequeuedView.annotation = annotation
                 view = dequeuedView
             } else {
+                let button = UIButton(type: .DetailDisclosure)
+                button.addTarget(self, action:"showParkingDetailsTableViewController:", forControlEvents: UIControlEvents.TouchUpInside)
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 view.canShowCallout = true
-                view.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+                view.rightCalloutAccessoryView = button
             }
 
             return view
         }
 
         return nil
+    }
+
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        if let annotation = view.annotation as? ParkingLotAnnotation {
+            self.selectedParkingLot = annotation.parkingLot
+        }
+    }
+
+    func showParkingDetailsTableViewController(sender : UIButton) {
+        performSegueWithIdentifier("showDetails", sender: self)
+    }
+
+
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
+
+        if let identifier = segue.identifier {
+            if "showDetails" == identifier {
+                let vc = segue.destinationViewController
+                let parkingDetailsVC = vc as! ParkingDetailsTableViewController
+                parkingDetailsVC.parkingLot = selectedParkingLot
+            }
+        }
     }
 }
 
