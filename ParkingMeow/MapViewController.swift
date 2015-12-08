@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, SearchTableViewControllerDelegate, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
 
@@ -24,22 +24,6 @@ class MapViewController: UIViewController, SearchTableViewControllerDelegate, MK
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
-    func onSearchResultReturned(result: [ParkingLot]?, error: NSError?) {
-        if let error = error {
-            print(error)
-            return
-        }
-
-        // clear annotatoins
-        mapView.removeAnnotations(mapView.annotations)
-        if let parkingLots = result {
-            for parkingLot in parkingLots {
-                mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
-            }
-            mapView.showAnnotations(mapView.annotations, animated: true)
-        }
     }
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -95,6 +79,28 @@ class MapViewController: UIViewController, SearchTableViewControllerDelegate, MK
     }
 }
 
+extension MapViewController : SearchTableViewControllerDelegate {
+    func onSearchResultReturned(result: [ParkingLot]?, error: NSError?) {
+        if let error = error {
+            print(error)
+            return
+        }
+
+        // clear annotatoins
+        mapView.removeAnnotations(mapView.annotations)
+        if let parkingLots = result {
+            for parkingLot in parkingLots {
+                mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
+            }
+            mapView.showAnnotations(mapView.annotations, animated: true)
+        }
+    }
+
+    func currentLocationCoordinate() -> CLLocationCoordinate2D? {
+        return self.mapView.centerCoordinate
+    }
+}
+
 
 class ParkingLotAnnotation : NSObject, MKAnnotation {
 
@@ -112,7 +118,8 @@ class ParkingLotAnnotation : NSObject, MKAnnotation {
 
     // Title and subtitle for use by selection UI.
     var title: String? {
-        return parkingLot.webname! + String(parkingLot.id!)
+        let nameVal = (parkingLot.webname != nil) ? parkingLot.webname : (parkingLot.facName != nil) ? parkingLot.facName : parkingLot.opName
+        return nameVal
     }
 
     var subtitle: String? {

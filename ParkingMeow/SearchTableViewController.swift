@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import MapKit
 
 protocol SearchTableViewControllerDelegate: class {
+    func currentLocationCoordinate() -> CLLocationCoordinate2D?
     func onSearchResultReturned(result : [ParkingLot]?, error: NSError?)
 }
 
@@ -65,11 +67,12 @@ class SearchTableViewController: UITableViewController {
             params[ParkingRate.RateType.AllDay.rawValue] = Double(rateAllDayTextField.text!)
         }
 
-        params["longtitude"] = "-122.3"
-        params["latitude"] = "47.6"
+        if let location = delegate?.currentLocationCoordinate() {
+            params["longtitude"] = location.longitude
+            params["latitude"] = location.latitude
+        }
 
         print(params)
-
         ParkingMeowAPIClient.sharedInstance.getParkingLots(params)
             { (parkingLots, error) -> Void in
                 if let error = error {

@@ -2,9 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="M2Q-te-6b4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Map View Controller-->
@@ -53,39 +51,31 @@
                         <animations/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="TXo-1N-qD1">
-                                <rect key="frame" x="0.0" y="50" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="parkingDetailCell" textLabel="p3V-ug-jOb" detailTextLabel="0dq-eG-Qcm" style="IBUITableViewCellStyleValue2" id="LGI-7X-cQO">
+                                <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TXo-1N-qD1" id="PCV-de-jCr">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LGI-7X-cQO" id="H2Z-eE-esj">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1f8-Q3-6fE" userLabel="Property Name">
-                                            <rect key="frame" x="8" y="11" width="180" height="21"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="p3V-ug-jOb">
+                                            <rect key="frame" x="15" y="15" width="91" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w1X-kl-XUg" userLabel="Property Value">
-                                            <rect key="frame" x="412" y="11" width="180" height="21"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0dq-eG-Qcm">
+                                            <rect key="frame" x="112" y="15" width="33" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <animations/>
-                                    <constraints>
-                                        <constraint firstItem="1f8-Q3-6fE" firstAttribute="top" secondItem="PCV-de-jCr" secondAttribute="topMargin" constant="3" id="1j3-Wt-Hcq"/>
-                                        <constraint firstItem="1f8-Q3-6fE" firstAttribute="leading" secondItem="PCV-de-jCr" secondAttribute="leadingMargin" id="RJh-K3-7HH"/>
-                                        <constraint firstItem="w1X-kl-XUg" firstAttribute="trailing" secondItem="PCV-de-jCr" secondAttribute="trailingMargin" id="T78-9c-fpL"/>
-                                        <constraint firstItem="1f8-Q3-6fE" firstAttribute="centerY" secondItem="PCV-de-jCr" secondAttribute="centerY" id="WPD-d6-jjP"/>
-                                        <constraint firstItem="1f8-Q3-6fE" firstAttribute="firstBaseline" secondItem="w1X-kl-XUg" secondAttribute="firstBaseline" id="atN-Wm-weo"/>
-                                        <constraint firstItem="w1X-kl-XUg" firstAttribute="width" secondItem="PCV-de-jCr" secondAttribute="width" multiplier="0.3" id="cRX-uL-nO5"/>
-                                        <constraint firstItem="1f8-Q3-6fE" firstAttribute="baseline" secondItem="w1X-kl-XUg" secondAttribute="baseline" id="y2L-l3-9ff"/>
-                                        <constraint firstItem="1f8-Q3-6fE" firstAttribute="width" secondItem="PCV-de-jCr" secondAttribute="width" multiplier="0.3" id="zAp-wO-fFe"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <animations/>
                             </tableViewCell>

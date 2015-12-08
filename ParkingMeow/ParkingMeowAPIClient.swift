@@ -13,6 +13,7 @@ import Mantle
 class ParkingMeowAPIClient {
 
     static let sharedInstance = ParkingMeowAPIClient()
+    //private let apiPath = "https://infinite-stream-9318.herokuapp.com/parking_lots" //"http://localhost:3000/parking_lots"
     private let apiPath = "http://localhost:3000/parking_lots"
 
     private init() {
