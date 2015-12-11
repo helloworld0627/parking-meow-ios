@@ -17,6 +17,7 @@
 		C05D0CFA1C0B8B9D001F2EBB /* ParkingMeowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D0CF91C0B8B9D001F2EBB /* ParkingMeowTests.swift */; };
 		C05D0D051C0B8B9D001F2EBB /* ParkingMeowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D0D041C0B8B9D001F2EBB /* ParkingMeowUITests.swift */; };
 		C05D0D131C0B8DC3001F2EBB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C05D0D121C0B8DC3001F2EBB /* MapKit.framework */; };
+		C0DB1E9E1C1ABC4200308A56 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0DB1E9D1C1ABC4200308A56 /* CoreLocation.framework */; };
 		C0E4CA121C0ECAEE001CB6F2 /* ParkingMeowAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E4CA111C0ECAEE001CB6F2 /* ParkingMeowAPIClient.swift */; settings = {ASSET_TAGS = (); }; };
 		FF9C3C8E2036D54F1F58946F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FD685BC191639B0D010030 /* Pods.framework */; };
 /* End PBXBuildFile section */
@@ -58,6 +59,7 @@
 		C05D0D041C0B8B9D001F2EBB /* ParkingMeowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingMeowUITests.swift; sourceTree = "<group>"; };
 		C05D0D061C0B8B9D001F2EBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C05D0D121C0B8DC3001F2EBB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C0DB1E9D1C1ABC4200308A56 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C0E4CA111C0ECAEE001CB6F2 /* ParkingMeowAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkingMeowAPIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0DB1E9E1C1ABC4200308A56 /* CoreLocation.framework in Frameworks */,
 				C05D0D131C0B8DC3001F2EBB /* MapKit.framework in Frameworks */,
 				FF9C3C8E2036D54F1F58946F /* Pods.framework in Frameworks */,
 			);
@@ -91,6 +94,7 @@
 		2BB5230EE61815782DC14B16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C0DB1E9D1C1ABC4200308A56 /* CoreLocation.framework */,
 				C05D0D121C0B8DC3001F2EBB /* MapKit.framework */,
 				42FD685BC191639B0D010030 /* Pods.framework */,
 			);

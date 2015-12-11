@@ -8,17 +8,29 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
 
+    // does not work if defined in method
+    let locationManager = CLLocationManager()
     var selectedParkingLot : ParkingLot?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+
         mapView.delegate = self
+        // should be enabled all the time
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.requestWhenInUseAuthorization()
+        } else {
+            // should not happen
+            print("CLLocationManager is not enabled.")
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,12 +104,37 @@ extension MapViewController : SearchTableViewControllerDelegate {
             for parkingLot in parkingLots {
                 mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
             }
-            mapView.showAnnotations(mapView.annotations, animated: true)
+            //mapView.showAnnotations(mapView.annotations, animated: true)
         }
     }
 
     func currentLocationCoordinate() -> CLLocationCoordinate2D? {
         return self.mapView.centerCoordinate
+    }
+}
+
+extension MapViewController : CLLocationManagerDelegate {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .AuthorizedWhenInUse {
+            manager.startUpdatingLocation()
+            mapView.showsUserLocation = (status == .AuthorizedWhenInUse)
+        } else {
+            print("CLAuthorizationStatus is \(status).")
+        }
+    }
+
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if locations.count > 0 {
+            let locCoord = locations[0].coordinate
+            let userLocCoord = mapView.userLocation.coordinate
+            if userLocCoord.latitude == locCoord.latitude
+                && userLocCoord.longitude == locCoord.longitude {
+                    let region = MKCoordinateRegionMakeWithDistance(userLocCoord, 1000, 1000)
+                    mapView.setRegion(region, animated: true)
+                    // avoid recursively calling this after map center is updated
+                    manager.stopUpdatingLocation()
+            }
+        }
     }
 }
 
