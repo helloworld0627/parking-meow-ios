@@ -49,31 +49,32 @@ class SearchTableViewController: UITableViewController {
     }
 
     @IBAction func actionForSearch(sender: AnyObject) {
-        var params : [String : AnyObject] = [ : ]
-        params[ParkingBusinessHour.HourType.MonFri.rawValue] = monFriSwitch.on ? "true" : "false"
-        params[ParkingBusinessHour.HourType.Sat.rawValue] = satSwitch.on ? "true" : "false"
-        params[ParkingBusinessHour.HourType.Sun.rawValue] = sunSwitch.on ? "true" : "false"
+        let client = ParkingMeowAPIClient.sharedInstance
+        client.includeBusinessHour(ParkingBusinessHour.HourType.MonFri, on: monFriSwitch.on)
+        client.includeBusinessHour(ParkingBusinessHour.HourType.Sat, on: satSwitch.on)
+        client.includeBusinessHour(ParkingBusinessHour.HourType.Sun, on: sunSwitch.on)
 
-        if rate1HrTextField.text?.isEmpty == false {
-            params[ParkingRate.RateType.OneHour.rawValue] = Double(rate1HrTextField.text!)
+        if let text = rate1HrTextField.text, price = Double(text) {
+            client.includeRate(ParkingRate.RateType.OneHour, price: price)
         }
-        if rate2HrTextField.text?.isEmpty == false {
-            params[ParkingRate.RateType.TwoHour.rawValue] = Double(rate2HrTextField.text!)
+
+        if let text = rate2HrTextField.text, price = Double(text) {
+            client.includeRate(ParkingRate.RateType.TwoHour, price: price)
         }
-        if rate3HrTextField.text?.isEmpty == false {
-            params[ParkingRate.RateType.ThreeHour.rawValue] = Double(rate3HrTextField.text!)
+
+        if let text = rate3HrTextField.text, price = Double(text) {
+            client.includeRate(ParkingRate.RateType.ThreeHour, price: price)
         }
-        if rateAllDayTextField.text?.isEmpty == false {
-            params[ParkingRate.RateType.AllDay.rawValue] = Double(rateAllDayTextField.text!)
+
+        if let text = rateAllDayTextField.text, price = Double(text) {
+            client.includeRate(ParkingRate.RateType.AllDay, price: price)
         }
 
         if let location = delegate?.currentLocationCoordinate() {
-            params["longtitude"] = location.longitude
-            params["latitude"] = location.latitude
+            client.includeLocation(location)
         }
 
-        print(params)
-        ParkingMeowAPIClient.sharedInstance.getParkingLots(params)
+        ParkingMeowAPIClient.sharedInstance.getParkingLots()
             { (parkingLots, error) -> Void in
                 if let error = error {
                     self.delegate?.onSearchResultReturned(nil, error: error)

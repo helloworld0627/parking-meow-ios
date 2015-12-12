@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 import Alamofire
 import Mantle
 
@@ -15,11 +16,30 @@ class ParkingMeowAPIClient {
     static let sharedInstance = ParkingMeowAPIClient()
     //private let apiPath = "https://infinite-stream-9318.herokuapp.com/parking_lots" //"http://localhost:3000/parking_lots"
     private let apiPath = "http://localhost:3000/parking_lots"
+    private var parameters = [String : AnyObject]()
 
     private init() {
     }
 
-    func getParkingLots(parameters: [String : AnyObject]?, completion: ((parkingLots : [ParkingLot]?, error : NSError?) -> Void) ) {
+    func includeBusinessHour(hourType: ParkingBusinessHour.HourType, on: Bool) {
+        parameters[hourType.rawValue] = on ? "true" : "false"
+    }
+
+    func includeRate(rateType: ParkingRate.RateType, price: Double) {
+        parameters[rateType.rawValue] = price
+    }
+
+    func includeLocation(coordinate : CLLocationCoordinate2D) {
+        parameters["longtitude"] = coordinate.longitude
+        parameters["latitude"] = coordinate.latitude
+    }
+
+    func reset() {
+        parameters = [String : AnyObject]()
+    }
+
+    func getParkingLots(completion: ((parkingLots : [ParkingLot]?, error : NSError?) -> Void) ) {
+        debugPrint(parameters)
         Alamofire.request(.GET, apiPath, parameters: parameters)
             .responseJSON { (response) -> Void in
                 let result = response.result
