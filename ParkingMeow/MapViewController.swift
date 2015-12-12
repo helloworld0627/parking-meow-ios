@@ -10,9 +10,11 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var centerLocationButton: UIButton!
+    @IBOutlet weak var searchButton: UIButton!
 
     // does not work if defined in method
     let locationManager = CLLocationManager()
@@ -22,8 +24,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
+        // set mapViewDelegate
         mapView.delegate = self
-        // should be enabled all the time
+
+        // location service should be enabled all the time
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.requestWhenInUseAuthorization()
@@ -31,6 +35,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             // should not happen
             print("CLLocationManager is not enabled.")
         }
+
+        // add target for the button
+        centerLocationButton.addTarget(self, action: "centerUserLocation", forControlEvents: .TouchUpInside)
+        searchButton.addTarget(self, action: "searchCenterLocation", forControlEvents: .TouchUpInside)
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,6 +46,41 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    func centerUserLocation() {
+        if let location = mapView.userLocation.location {
+            mapView.centerCoordinate = location.coordinate
+        }
+    }
+
+    func searchCenterLocation() {
+        ParkingMeowAPIClient.sharedInstance.includeLocation(mapView.centerCoordinate)
+        ParkingMeowAPIClient.sharedInstance.getParkingLots { (parkingLots, error) -> Void in
+            self.onSearchResultReturned(parkingLots, error: error)
+        }
+    }
+
+    func showParkingDetailsTableViewController(sender : UIButton) {
+        performSegueWithIdentifier("showDetails", sender: self)
+    }
+
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
+
+        if let identifier = segue.identifier {
+            if "showDetails" == identifier {
+                let vc = segue.destinationViewController
+                let parkingDetailsVC = vc as! ParkingDetailsTableViewController
+                parkingDetailsVC.parkingLot = selectedParkingLot
+            }
+        }
+    }
+}
+
+extension MapViewController : MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if let _ = annotation as? MKUserLocation {
             return nil
@@ -66,27 +109,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         if let annotation = view.annotation as? ParkingLotAnnotation {
             self.selectedParkingLot = annotation.parkingLot
-        }
-    }
-
-    func showParkingDetailsTableViewController(sender : UIButton) {
-        performSegueWithIdentifier("showDetails", sender: self)
-    }
-
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-
-        if let identifier = segue.identifier {
-            if "showDetails" == identifier {
-                let vc = segue.destinationViewController
-                let parkingDetailsVC = vc as! ParkingDetailsTableViewController
-                parkingDetailsVC.parkingLot = selectedParkingLot
-            }
         }
     }
 }

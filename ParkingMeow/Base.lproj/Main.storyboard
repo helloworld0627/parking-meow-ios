@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="M2Q-te-6b4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="M2Q-te-6b4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -21,19 +21,35 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="535"/>
                                 <animations/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k1Z-Yd-fGx">
+                                <rect key="frame" x="532" y="486" width="48" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Search"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UX8-Ow-EL2">
+                                <rect key="frame" x="532" y="448" width="47" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Center"/>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3RJ-tw-RfQ" firstAttribute="top" secondItem="KEC-aS-stf" secondAttribute="bottom" constant="1" id="BoN-UV-8g9"/>
+                            <constraint firstItem="UX8-Ow-EL2" firstAttribute="leading" secondItem="k1Z-Yd-fGx" secondAttribute="leading" id="LxN-8f-8oA"/>
                             <constraint firstItem="KEC-aS-stf" firstAttribute="leading" secondItem="inW-0X-t4g" secondAttribute="leading" id="TvE-0p-D5x"/>
+                            <constraint firstAttribute="bottom" secondItem="k1Z-Yd-fGx" secondAttribute="bottom" constant="20" symbolic="YES" id="ZBQ-YL-VMn"/>
                             <constraint firstItem="KEC-aS-stf" firstAttribute="top" secondItem="v8e-Z7-fl0" secondAttribute="bottom" id="Zqt-Q6-ek0"/>
+                            <constraint firstItem="k1Z-Yd-fGx" firstAttribute="top" secondItem="UX8-Ow-EL2" secondAttribute="bottom" constant="8" symbolic="YES" id="jiM-pm-1FC"/>
                             <constraint firstAttribute="trailing" secondItem="KEC-aS-stf" secondAttribute="trailing" id="msd-nN-BpL"/>
+                            <constraint firstItem="k1Z-Yd-fGx" firstAttribute="trailing" secondItem="inW-0X-t4g" secondAttribute="trailingMargin" id="mzg-Lp-7Nb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Rln-sK-7VS"/>
                     <connections>
+                        <outlet property="centerLocationButton" destination="UX8-Ow-EL2" id="ri7-z2-5kT"/>
                         <outlet property="mapView" destination="KEC-aS-stf" id="AmN-cH-7Al"/>
+                        <outlet property="searchButton" destination="k1Z-Yd-fGx" id="KIj-d2-xQH"/>
                         <segue destination="83t-nQ-7nV" kind="show" identifier="showDetails" id="Iuo-ze-7UR"/>
                     </connections>
                 </viewController>
