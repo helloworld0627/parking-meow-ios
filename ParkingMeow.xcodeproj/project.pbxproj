@@ -17,6 +17,7 @@
 		C05D0CFA1C0B8B9D001F2EBB /* ParkingMeowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D0CF91C0B8B9D001F2EBB /* ParkingMeowTests.swift */; };
 		C05D0D051C0B8B9D001F2EBB /* ParkingMeowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D0D041C0B8B9D001F2EBB /* ParkingMeowUITests.swift */; };
 		C05D0D131C0B8DC3001F2EBB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C05D0D121C0B8DC3001F2EBB /* MapKit.framework */; };
+		C0DAF0C71C1BF370009A7EF0 /* seattle.gpx in Resources */ = {isa = PBXBuildFile; fileRef = C0DAF0C61C1BF370009A7EF0 /* seattle.gpx */; settings = {ASSET_TAGS = (); }; };
 		C0DB1E9E1C1ABC4200308A56 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0DB1E9D1C1ABC4200308A56 /* CoreLocation.framework */; };
 		C0E4CA121C0ECAEE001CB6F2 /* ParkingMeowAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E4CA111C0ECAEE001CB6F2 /* ParkingMeowAPIClient.swift */; settings = {ASSET_TAGS = (); }; };
 		FF9C3C8E2036D54F1F58946F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FD685BC191639B0D010030 /* Pods.framework */; };
@@ -59,6 +60,7 @@
 		C05D0D041C0B8B9D001F2EBB /* ParkingMeowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingMeowUITests.swift; sourceTree = "<group>"; };
 		C05D0D061C0B8B9D001F2EBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C05D0D121C0B8DC3001F2EBB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C0DAF0C61C1BF370009A7EF0 /* seattle.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = seattle.gpx; sourceTree = "<group>"; };
 		C0DB1E9D1C1ABC4200308A56 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C0E4CA111C0ECAEE001CB6F2 /* ParkingMeowAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkingMeowAPIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,6 +146,7 @@
 				C05D0CED1C0B8B9D001F2EBB /* LaunchScreen.storyboard */,
 				C05D0CEB1C0B8B9D001F2EBB /* Assets.xcassets */,
 				C05D0CF01C0B8B9D001F2EBB /* Info.plist */,
+				C0DAF0C61C1BF370009A7EF0 /* seattle.gpx */,
 			);
 			path = ParkingMeow;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 			files = (
 				C05D0CEF1C0B8B9D001F2EBB /* LaunchScreen.storyboard in Resources */,
 				C05D0CEC1C0B8B9D001F2EBB /* Assets.xcassets in Resources */,
+				C0DAF0C71C1BF370009A7EF0 /* seattle.gpx in Resources */,
 				C05D0CEA1C0B8B9D001F2EBB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
