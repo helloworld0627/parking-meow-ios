@@ -137,13 +137,13 @@
 			children = (
 				C05D0CE41C0B8B9D001F2EBB /* AppDelegate.swift */,
 				C05D0CE61C0B8B9D001F2EBB /* MapViewController.swift */,
-				C05D0CE81C0B8B9D001F2EBB /* Main.storyboard */,
-				C05D0CEB1C0B8B9D001F2EBB /* Assets.xcassets */,
-				C05D0CED1C0B8B9D001F2EBB /* LaunchScreen.storyboard */,
-				C05D0CF01C0B8B9D001F2EBB /* Info.plist */,
 				C0E4CA111C0ECAEE001CB6F2 /* ParkingMeowAPIClient.swift */,
-				C00183421C1164BF0055F4CF /* SearchTableViewController.swift */,
 				C00183441C1522A80055F4CF /* ParkingDetailsTableViewController.swift */,
+				C00183421C1164BF0055F4CF /* SearchTableViewController.swift */,
+				C05D0CE81C0B8B9D001F2EBB /* Main.storyboard */,
+				C05D0CED1C0B8B9D001F2EBB /* LaunchScreen.storyboard */,
+				C05D0CEB1C0B8B9D001F2EBB /* Assets.xcassets */,
+				C05D0CF01C0B8B9D001F2EBB /* Info.plist */,
 			);
 			path = ParkingMeow;
 			sourceTree = "<group>";
