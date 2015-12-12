@@ -16,6 +16,8 @@ class MapViewController: UIViewController {
     @IBOutlet weak var centerLocationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
 
+    // set as 1 mile for now
+    let radius = 1600.0
     // does not work if defined in method
     let locationManager = CLLocationManager()
     var selectedParkingLot : ParkingLot?
@@ -111,6 +113,16 @@ extension MapViewController : MKMapViewDelegate {
             self.selectedParkingLot = annotation.parkingLot
         }
     }
+
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        if let overlay = overlay as? MKCircle {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            let color = UIColor(red: 0, green: 0, blue: 255/255, alpha: 0.2)
+            renderer.fillColor = color
+            return renderer
+        }
+        return MKOverlayRenderer(overlay: overlay)
+    }
 }
 
 extension MapViewController : SearchTableViewControllerDelegate {
@@ -122,6 +134,10 @@ extension MapViewController : SearchTableViewControllerDelegate {
 
         // clear annotatoins
         mapView.removeAnnotations(mapView.annotations)
+        // clear overlays
+        mapView.removeOverlays(mapView.overlays)
+        let circleOverlay = MKCircle(centerCoordinate: mapView.centerCoordinate, radius: radius)
+        mapView.addOverlay(circleOverlay)
         if let parkingLots = result {
             for parkingLot in parkingLots {
                 mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
@@ -151,7 +167,7 @@ extension MapViewController : CLLocationManagerDelegate {
             let userLocCoord = mapView.userLocation.coordinate
             if userLocCoord.latitude == locCoord.latitude
                 && userLocCoord.longitude == locCoord.longitude {
-                    let region = MKCoordinateRegionMakeWithDistance(userLocCoord, 1000, 1000)
+                    let region = MKCoordinateRegionMakeWithDistance(userLocCoord, radius, radius)
                     mapView.setRegion(region, animated: true)
                     // avoid recursively calling this after map center is updated
                     manager.stopUpdatingLocation()
