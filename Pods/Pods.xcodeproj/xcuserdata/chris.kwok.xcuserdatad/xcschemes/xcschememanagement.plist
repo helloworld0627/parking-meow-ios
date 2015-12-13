@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FontAwesome.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Mantle.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,12 +42,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0BA59254BE02EF2DEBCE0D32FFF50D08</key>
+		<key>071FD526A66D2A0E9BAAF427DA01D337</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>29E7ECF27D6D19337CBFB873412D6AFA</key>
+		<key>34848C25E1275098AC428904A9A0023A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,7 +57,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>447A75AE8E53F8EFE67E74A83DAD5957</key>
+		<key>5A1B0B08C5321176902F0A0B5CD7E0E0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6E418B38085B17BB9789F3D2ADC76A12</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,7 +72,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DB74626716DE0AC11685250CB2ADD89B</key>
+		<key>D8BE953B8CA4BEBB65BF483B62F81D0F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

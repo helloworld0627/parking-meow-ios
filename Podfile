@@ -17,3 +17,4 @@ end
 
 pod 'Alamofire', '~> 3.0'
 pod 'Mantle', '~> 2.0'
+pod 'FontAwesome', '~> 4.3'
