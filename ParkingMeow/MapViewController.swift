@@ -18,6 +18,8 @@ class MapViewController: UIViewController {
 
     // set as 1 mile for now
     let radius = 1600.0
+    let defaultZoomLevel = 13
+
     // does not work if defined in method
     let locationManager = CLLocationManager()
     var selectedParkingLot : ParkingLot?
@@ -50,7 +52,7 @@ class MapViewController: UIViewController {
 
     func centerUserLocation() {
         if let location = mapView.userLocation.location {
-            mapView.centerCoordinate = location.coordinate
+            mapView.setCenterCoordinate(location.coordinate, animated: true, zoomLevel: defaultZoomLevel)
         }
     }
 
@@ -74,8 +76,7 @@ class MapViewController: UIViewController {
 
         if let identifier = segue.identifier {
             if "showDetails" == identifier {
-                let vc = segue.destinationViewController
-                let parkingDetailsVC = vc as! ParkingDetailsTableViewController
+                let parkingDetailsVC = segue.destinationViewController as! ParkingDetailsTableViewController
                 parkingDetailsVC.parkingLot = selectedParkingLot
             }
         }
@@ -142,7 +143,7 @@ extension MapViewController : SearchTableViewControllerDelegate {
             for parkingLot in parkingLots {
                 mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
             }
-            //mapView.showAnnotations(mapView.annotations, animated: true)
+            mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: defaultZoomLevel)
         }
     }
 
@@ -167,8 +168,7 @@ extension MapViewController : CLLocationManagerDelegate {
             let userLocCoord = mapView.userLocation.coordinate
             if userLocCoord.latitude == locCoord.latitude
                 && userLocCoord.longitude == locCoord.longitude {
-                    let region = MKCoordinateRegionMakeWithDistance(userLocCoord, radius, radius)
-                    mapView.setRegion(region, animated: true)
+                    mapView.setCenterCoordinate(userLocCoord, animated: true, zoomLevel: defaultZoomLevel)
                     // avoid recursively calling this after map center is updated
                     manager.stopUpdatingLocation()
             }
