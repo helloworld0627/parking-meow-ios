@@ -17,14 +17,21 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var centerLocationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var zoomInButton: UIButton!
+    @IBOutlet weak var zoomOutButton: UIButton!
+
+    // UIButton
+    let defaultButtonBGColor = UIColor.blackColor()
+    let defaultButtonRadius : CGFloat = 5.0
+    let awesomeFontAttriute = [NSFontAttributeName : UIFont(awesomeFontOfSize: 20.0)!]
 
     // set as 1 mile for now
     let radius = 1600.0
     let defaultZoomLevel = 13
+    var currentZoomLevel: Int = 13
 
     // does not work if defined in method
     let locationManager = CLLocationManager()
-    let awesomeFontAttriute = [NSFontAttributeName : UIFont(awesomeFontOfSize: 20.0)!]
     var selectedParkingLot : ParkingLot?
 
     override func viewDidLoad() {
@@ -43,23 +50,10 @@ class MapViewController: UIViewController {
             print("CLLocationManager is not enabled.")
         }
 
-        // redraw icon
-        let buttonBGColor = UIColor.blackColor()
-        let buttonRadius : CGFloat = 10.0
-        let locatonArrow = NSString.fontAwesomeIconStringForEnum(FAIcon.FALocationArrow)
-        let locAttriStr = NSAttributedString(string: locatonArrow, attributes: awesomeFontAttriute)
-        centerLocationButton.setAttributedTitle(locAttriStr, forState: .Normal)
-        centerLocationButton.backgroundColor = buttonBGColor
-        centerLocationButton.layer.cornerRadius = buttonRadius
-        let search = NSString.fontAwesomeIconStringForEnum(FAIcon.FASearch)
-        let searchAttriStr = NSAttributedString(string: search, attributes: awesomeFontAttriute)
-        searchButton.setAttributedTitle(searchAttriStr, forState: .Normal)
-        searchButton.backgroundColor = buttonBGColor
-        searchButton.layer.cornerRadius = buttonRadius
-
-        // add target for the button
-        centerLocationButton.addTarget(self, action: "centerUserLocation", forControlEvents: .TouchUpInside)
-        searchButton.addTarget(self, action: "searchCenterLocation", forControlEvents: .TouchUpInside)
+        configCenterLocationButton()
+        configSearchButton()
+        configZoomInButton()
+        configZoomOutButton()
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,9 +74,71 @@ class MapViewController: UIViewController {
         }
     }
 
+    func zoomInFromCenterLocation() {
+        if currentZoomLevel >= 20 {
+            return
+        }
+        print(currentZoomLevel)
+        currentZoomLevel = currentZoomLevel + 1
+        zoomMapView(currentZoomLevel)
+    }
+
+    func zoomOutFromCenterLocation() {
+        if currentZoomLevel <= 1 {
+            return
+        }
+        print(currentZoomLevel)
+        currentZoomLevel = currentZoomLevel - 1
+        zoomMapView(currentZoomLevel)
+    }
+
+    private func zoomMapView(zoomLevel: Int) {
+        mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: zoomLevel)
+    }
+
     func showParkingDetailsTableViewController(sender : UIButton) {
         performSegueWithIdentifier("showDetails", sender: self)
     }
+
+
+    // MARK: - Private Methods
+
+    private func configCenterLocationButton() {
+        let locatonArrow = NSString.fontAwesomeIconStringForEnum(FAIcon.FALocationArrow)
+        let locAttriStr = NSAttributedString(string: locatonArrow, attributes: awesomeFontAttriute)
+        centerLocationButton.setAttributedTitle(locAttriStr, forState: .Normal)
+        centerLocationButton.backgroundColor = defaultButtonBGColor
+        centerLocationButton.layer.cornerRadius = defaultButtonRadius
+        centerLocationButton.addTarget(self, action: "centerUserLocation", forControlEvents: .TouchUpInside)
+    }
+
+    private func configSearchButton() {
+        let search = NSString.fontAwesomeIconStringForEnum(FAIcon.FASearch)
+        let searchAttriStr = NSAttributedString(string: search, attributes: awesomeFontAttriute)
+        searchButton.setAttributedTitle(searchAttriStr, forState: .Normal)
+        searchButton.backgroundColor = defaultButtonBGColor
+        searchButton.layer.cornerRadius = defaultButtonRadius
+        searchButton.addTarget(self, action: "searchCenterLocation", forControlEvents: .TouchUpInside)
+    }
+
+    private func configZoomInButton() {
+        let zoomIn = NSString.fontAwesomeIconStringForEnum(FAIcon.FASearchPlus)
+        let zoomInAttriStr = NSAttributedString(string: zoomIn, attributes: awesomeFontAttriute)
+        zoomInButton.setAttributedTitle(zoomInAttriStr, forState: .Normal)
+        zoomInButton.backgroundColor = defaultButtonBGColor
+        zoomInButton.layer.cornerRadius = defaultButtonRadius
+        zoomInButton.addTarget(self, action: "zoomInFromCenterLocation", forControlEvents: .TouchUpInside)
+    }
+
+    private func configZoomOutButton() {
+        let zoomOut = NSString.fontAwesomeIconStringForEnum(FAIcon.FASearchMinus)
+        let zoomOutAttriStr = NSAttributedString(string: zoomOut, attributes: awesomeFontAttriute)
+        zoomOutButton.setAttributedTitle(zoomOutAttriStr, forState: .Normal)
+        zoomOutButton.backgroundColor = defaultButtonBGColor
+        zoomOutButton.layer.cornerRadius = defaultButtonRadius
+        zoomOutButton.addTarget(self, action: "zoomOutFromCenterLocation", forControlEvents: .TouchUpInside)
+    }
+
 
     // MARK: - Navigation
 
@@ -160,7 +216,8 @@ extension MapViewController : SearchTableViewControllerDelegate {
             for parkingLot in parkingLots {
                 mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
             }
-            mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: defaultZoomLevel)
+            currentZoomLevel = defaultZoomLevel
+            mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: currentZoomLevel)
         }
     }
 
@@ -185,7 +242,8 @@ extension MapViewController : CLLocationManagerDelegate {
             let userLocCoord = mapView.userLocation.coordinate
             if userLocCoord.latitude == locCoord.latitude
                 && userLocCoord.longitude == locCoord.longitude {
-                    mapView.setCenterCoordinate(userLocCoord, animated: true, zoomLevel: defaultZoomLevel)
+                    currentZoomLevel = defaultZoomLevel
+                    mapView.setCenterCoordinate(userLocCoord, animated: true, zoomLevel: currentZoomLevel)
                     // avoid recursively calling this after map center is updated
                     manager.stopUpdatingLocation()
             }
