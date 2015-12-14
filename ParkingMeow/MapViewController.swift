@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 import CoreLocation
+/** http://fortawesome.github.io/Font-Awesome/cheatsheet/ */
+import FontAwesome
 
 class MapViewController: UIViewController {
 
@@ -22,6 +24,7 @@ class MapViewController: UIViewController {
 
     // does not work if defined in method
     let locationManager = CLLocationManager()
+    let awesomeFontAttriute = [NSFontAttributeName : UIFont(awesomeFontOfSize: 20.0)!]
     var selectedParkingLot : ParkingLot?
 
     override func viewDidLoad() {
@@ -39,6 +42,20 @@ class MapViewController: UIViewController {
             // should not happen
             print("CLLocationManager is not enabled.")
         }
+
+        // redraw icon
+        let buttonBGColor = UIColor.blackColor()
+        let buttonRadius : CGFloat = 10.0
+        let locatonArrow = NSString.fontAwesomeIconStringForEnum(FAIcon.FALocationArrow)
+        let locAttriStr = NSAttributedString(string: locatonArrow, attributes: awesomeFontAttriute)
+        centerLocationButton.setAttributedTitle(locAttriStr, forState: .Normal)
+        centerLocationButton.backgroundColor = buttonBGColor
+        centerLocationButton.layer.cornerRadius = buttonRadius
+        let search = NSString.fontAwesomeIconStringForEnum(FAIcon.FASearch)
+        let searchAttriStr = NSAttributedString(string: search, attributes: awesomeFontAttriute)
+        searchButton.setAttributedTitle(searchAttriStr, forState: .Normal)
+        searchButton.backgroundColor = buttonBGColor
+        searchButton.layer.cornerRadius = buttonRadius
 
         // add target for the button
         centerLocationButton.addTarget(self, action: "centerUserLocation", forControlEvents: .TouchUpInside)

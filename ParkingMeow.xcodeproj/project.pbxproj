@@ -10,6 +10,7 @@
 		C00183431C1164BF0055F4CF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00183421C1164BF0055F4CF /* SearchTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		C00183451C1522A80055F4CF /* ParkingDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00183441C1522A80055F4CF /* ParkingDetailsTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		C0500A611C1D506A00206CFA /* MapViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0500A601C1D506A00206CFA /* MapViewExtension.swift */; settings = {ASSET_TAGS = (); }; };
+		C0500A671C1E3C7D00206CFA /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0500A661C1E3C7D00206CFA /* FontAwesome.ttf */; };
 		C05D0CE51C0B8B9D001F2EBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D0CE41C0B8B9D001F2EBB /* AppDelegate.swift */; };
 		C05D0CE71C0B8B9D001F2EBB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D0CE61C0B8B9D001F2EBB /* MapViewController.swift */; };
 		C05D0CEA1C0B8B9D001F2EBB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C05D0CE81C0B8B9D001F2EBB /* Main.storyboard */; };
@@ -48,6 +49,7 @@
 		C00183421C1164BF0055F4CF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		C00183441C1522A80055F4CF /* ParkingDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkingDetailsTableViewController.swift; sourceTree = "<group>"; };
 		C0500A601C1D506A00206CFA /* MapViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewExtension.swift; sourceTree = "<group>"; };
+		C0500A661C1E3C7D00206CFA /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = Pods/FontAwesome/Resources/FontAwesome.ttf; sourceTree = "<group>"; };
 		C05D0CE11C0B8B9D001F2EBB /* ParkingMeow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingMeow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C05D0CE41C0B8B9D001F2EBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C05D0CE61C0B8B9D001F2EBB /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 		C05D0CD81C0B8B9D001F2EBB = {
 			isa = PBXGroup;
 			children = (
+				C0500A661C1E3C7D00206CFA /* FontAwesome.ttf */,
 				C05D0CE31C0B8B9D001F2EBB /* ParkingMeow */,
 				C05D0CF81C0B8B9D001F2EBB /* ParkingMeowTests */,
 				C05D0D031C0B8B9D001F2EBB /* ParkingMeowUITests */,
@@ -283,6 +286,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0500A671C1E3C7D00206CFA /* FontAwesome.ttf in Resources */,
 				C05D0CEF1C0B8B9D001F2EBB /* LaunchScreen.storyboard in Resources */,
 				C05D0CEC1C0B8B9D001F2EBB /* Assets.xcassets in Resources */,
 				C0DAF0C71C1BF370009A7EF0 /* seattle.gpx in Resources */,
