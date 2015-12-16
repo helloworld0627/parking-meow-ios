@@ -14,11 +14,20 @@ import Mantle
 class ParkingMeowAPIClient {
 
     static let sharedInstance = ParkingMeowAPIClient()
-    //private let apiPath = "https://infinite-stream-9318.herokuapp.com/parking_lots" //"http://localhost:3000/parking_lots"
-    private let apiPath = "http://localhost:3000/parking_lots"
+
+    private let localhost = "http://localhost:3000"
+    private let apiPath: String?
     private var parameters = [String : AnyObject]()
 
     private init() {
+        let path = "/parking_lots"
+        let hostkey = "ParkingMeow host"
+        if let host = NSBundle.mainBundle().objectForInfoDictionaryKey(hostkey) as? String {
+            self.apiPath = host + path
+            return
+        }
+        print("host key \(hostkey) is not found in info.plist. use localhost")
+        self.apiPath = localhost + path
     }
 
     func includeBusinessHour(hourType: ParkingBusinessHour.HourType, on: Bool) {
@@ -40,6 +49,11 @@ class ParkingMeowAPIClient {
 
     func getParkingLots(completion: ((parkingLots : [ParkingLot]?, error : NSError?) -> Void) ) {
         debugPrint(parameters)
+        guard let apiPath = apiPath else {
+            print("api Path is nil")
+            return
+        }
+
         Alamofire.request(.GET, apiPath, parameters: parameters)
             .responseJSON { (response) -> Void in
                 let result = response.result

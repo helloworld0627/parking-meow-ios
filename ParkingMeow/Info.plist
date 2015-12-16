@@ -47,6 +47,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>ParkingMeow host</key>
+	<string>https://infinite-stream-9318.herokuapp.com</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Parking Meow requires to your device&apos;s location for parking around you</string>
 	<key>NSAppTransportSecurity</key>
