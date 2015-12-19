@@ -70,6 +70,11 @@ class MapViewController: UIViewController {
     func centerUserLocation() {
         if let location = mapView.userLocation.location {
             mapView.setCenterCoordinate(location.coordinate, animated: true, zoomLevel: defaultZoomLevel)
+        } else {
+            let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let alertController = UIAlertController(title: "Location Access Failed", message: nil, preferredStyle: .Alert)
+            alertController.addAction(alertAction)
+            presentViewController(alertController, animated: true, completion: nil)
         }
     }
 
@@ -198,7 +203,7 @@ extension MapViewController : SearchTableViewControllerDelegate {
             mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: currentZoomLevel)
         } else {
             let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            let alertController = UIAlertController(title: "Results not found", message: "Please try different location and/or search criteria.", preferredStyle: .Alert)
+            let alertController = UIAlertController(title: "No Results", message: "Please try another location and/or search criteria.", preferredStyle: .Alert)
             alertController.addAction(alertAction)
             presentViewController(alertController, animated: true, completion: nil)
         }
