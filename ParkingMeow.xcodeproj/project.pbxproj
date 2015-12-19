@@ -20,6 +20,8 @@
 		C0760A9C1C25EE23003FBD57 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0760A951C25EE23003FBD57 /* SearchTableViewController.swift */; };
 		C0760A9D1C25EE23003FBD57 /* MapViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0760A971C25EE23003FBD57 /* MapViewExtension.swift */; };
 		C0760A9E1C25EE23003FBD57 /* ParkingMeowAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0760A991C25EE23003FBD57 /* ParkingMeowAPIClient.swift */; };
+		C0760AA01C25EFB8003FBD57 /* ParkingLot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0760A9F1C25EFB8003FBD57 /* ParkingLot.swift */; };
+		C0760AA21C25F0CC003FBD57 /* BaseResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0760AA11C25F0CC003FBD57 /* BaseResource.swift */; };
 		C0DAF0C71C1BF370009A7EF0 /* seattle.gpx in Resources */ = {isa = PBXBuildFile; fileRef = C0DAF0C61C1BF370009A7EF0 /* seattle.gpx */; };
 		C0DB1E9E1C1ABC4200308A56 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0DB1E9D1C1ABC4200308A56 /* CoreLocation.framework */; };
 		FF9C3C8E2036D54F1F58946F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FD685BC191639B0D010030 /* Pods.framework */; };
@@ -65,6 +67,8 @@
 		C0760A951C25EE23003FBD57 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		C0760A971C25EE23003FBD57 /* MapViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewExtension.swift; sourceTree = "<group>"; };
 		C0760A991C25EE23003FBD57 /* ParkingMeowAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkingMeowAPIClient.swift; sourceTree = "<group>"; };
+		C0760A9F1C25EFB8003FBD57 /* ParkingLot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkingLot.swift; sourceTree = "<group>"; };
+		C0760AA11C25F0CC003FBD57 /* BaseResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseResource.swift; sourceTree = "<group>"; };
 		C0DAF0C61C1BF370009A7EF0 /* seattle.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = seattle.gpx; sourceTree = "<group>"; };
 		C0DB1E9D1C1ABC4200308A56 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -194,6 +198,8 @@
 		C0760A981C25EE23003FBD57 /* ApiClients */ = {
 			isa = PBXGroup;
 			children = (
+				C0760AA11C25F0CC003FBD57 /* BaseResource.swift */,
+				C0760A9F1C25EFB8003FBD57 /* ParkingLot.swift */,
 				C0760A991C25EE23003FBD57 /* ParkingMeowAPIClient.swift */,
 			);
 			path = ApiClients;
@@ -387,11 +393,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0760AA21C25F0CC003FBD57 /* BaseResource.swift in Sources */,
 				C0760A9E1C25EE23003FBD57 /* ParkingMeowAPIClient.swift in Sources */,
 				C05D0CE51C0B8B9D001F2EBB /* AppDelegate.swift in Sources */,
 				C0760A9B1C25EE23003FBD57 /* ParkingDetailsTableViewController.swift in Sources */,
 				C0760A9A1C25EE23003FBD57 /* MapViewController.swift in Sources */,
 				C0760A9D1C25EE23003FBD57 /* MapViewExtension.swift in Sources */,
+				C0760AA01C25EFB8003FBD57 /* ParkingLot.swift in Sources */,
 				C0760A9C1C25EE23003FBD57 /* SearchTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
