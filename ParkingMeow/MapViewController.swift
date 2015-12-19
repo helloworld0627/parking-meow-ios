@@ -50,10 +50,16 @@ class MapViewController: UIViewController {
             print("CLLocationManager is not enabled.")
         }
 
-        configCenterLocationButton()
-        configSearchButton()
-        configZoomInButton()
-        configZoomOutButton()
+        // config button icons
+        configAwesomeIconButton(centerLocationButton, icon: FAIcon.FALocationArrow)
+        configAwesomeIconButton(searchButton, icon: FAIcon.FASearch)
+        configAwesomeIconButton(zoomInButton, icon: FAIcon.FASearchPlus)
+        configAwesomeIconButton(zoomOutButton, icon: FAIcon.FASearchMinus)
+        // add actions to buttons
+        centerLocationButton.addTarget(self, action: "centerUserLocation", forControlEvents: .TouchUpInside)
+        searchButton.addTarget(self, action: "searchCenterLocation", forControlEvents: .TouchUpInside)
+        zoomInButton.addTarget(self, action: "zoomInFromCenterLocation", forControlEvents: .TouchUpInside)
+        zoomOutButton.addTarget(self, action: "zoomOutFromCenterLocation", forControlEvents: .TouchUpInside)
     }
 
     override func didReceiveMemoryWarning() {
@@ -103,40 +109,12 @@ class MapViewController: UIViewController {
 
     // MARK: - Private Methods
 
-    private func configCenterLocationButton() {
-        let locatonArrow = NSString.fontAwesomeIconStringForEnum(FAIcon.FALocationArrow)
-        let locAttriStr = NSAttributedString(string: locatonArrow, attributes: awesomeFontAttriute)
-        centerLocationButton.setAttributedTitle(locAttriStr, forState: .Normal)
-        centerLocationButton.backgroundColor = defaultButtonBGColor
-        centerLocationButton.layer.cornerRadius = defaultButtonRadius
-        centerLocationButton.addTarget(self, action: "centerUserLocation", forControlEvents: .TouchUpInside)
-    }
-
-    private func configSearchButton() {
-        let search = NSString.fontAwesomeIconStringForEnum(FAIcon.FASearch)
-        let searchAttriStr = NSAttributedString(string: search, attributes: awesomeFontAttriute)
-        searchButton.setAttributedTitle(searchAttriStr, forState: .Normal)
-        searchButton.backgroundColor = defaultButtonBGColor
-        searchButton.layer.cornerRadius = defaultButtonRadius
-        searchButton.addTarget(self, action: "searchCenterLocation", forControlEvents: .TouchUpInside)
-    }
-
-    private func configZoomInButton() {
-        let zoomIn = NSString.fontAwesomeIconStringForEnum(FAIcon.FASearchPlus)
-        let zoomInAttriStr = NSAttributedString(string: zoomIn, attributes: awesomeFontAttriute)
-        zoomInButton.setAttributedTitle(zoomInAttriStr, forState: .Normal)
-        zoomInButton.backgroundColor = defaultButtonBGColor
-        zoomInButton.layer.cornerRadius = defaultButtonRadius
-        zoomInButton.addTarget(self, action: "zoomInFromCenterLocation", forControlEvents: .TouchUpInside)
-    }
-
-    private func configZoomOutButton() {
-        let zoomOut = NSString.fontAwesomeIconStringForEnum(FAIcon.FASearchMinus)
-        let zoomOutAttriStr = NSAttributedString(string: zoomOut, attributes: awesomeFontAttriute)
-        zoomOutButton.setAttributedTitle(zoomOutAttriStr, forState: .Normal)
-        zoomOutButton.backgroundColor = defaultButtonBGColor
-        zoomOutButton.layer.cornerRadius = defaultButtonRadius
-        zoomOutButton.addTarget(self, action: "zoomOutFromCenterLocation", forControlEvents: .TouchUpInside)
+    private func configAwesomeIconButton(button: UIButton, icon: FAIcon) {
+        let iconString = NSString.fontAwesomeIconStringForEnum(icon)
+        let locAttriStr = NSAttributedString(string: iconString, attributes: awesomeFontAttriute)
+        button.setAttributedTitle(locAttriStr, forState: .Normal)
+        button.backgroundColor = defaultButtonBGColor
+        button.layer.cornerRadius = defaultButtonRadius
     }
 
 
