@@ -212,17 +212,22 @@ extension MapViewController : SearchTableViewControllerDelegate {
         mapView.removeOverlays(mapView.overlays)
         let circleOverlay = MKCircle(centerCoordinate: mapView.centerCoordinate, radius: radius)
         mapView.addOverlay(circleOverlay)
-        if let parkingLots = result {
+        if let parkingLots = result where parkingLots.count > 0 {
             for parkingLot in parkingLots {
                 mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
             }
             currentZoomLevel = defaultZoomLevel
             mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: currentZoomLevel)
+        } else {
+            let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let alertController = UIAlertController(title: "Results not found", message: "Please try different location and/or search criteria.", preferredStyle: .Alert)
+            alertController.addAction(alertAction)
+            presentViewController(alertController, animated: true, completion: nil)
         }
     }
 
     func currentLocationCoordinate() -> CLLocationCoordinate2D? {
-        return self.mapView.centerCoordinate
+        return mapView.centerCoordinate
     }
 }
 
