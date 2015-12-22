@@ -20,8 +20,6 @@ class SearchTableViewController: UITableViewController {
     private let rowCntForRateSection = 4
     private let rowCntForHourSection = 3
 
-    @IBOutlet weak var searchBarButtonItem: UIBarButtonItem!
-
     @IBOutlet weak var monFriSwitch: UISwitch!
     @IBOutlet weak var satSwitch: UISwitch!
     @IBOutlet weak var sunSwitch: UISwitch!
@@ -85,9 +83,6 @@ class SearchTableViewController: UITableViewController {
     }
 
 
-
-
-
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -147,14 +142,16 @@ class SearchTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showDetail" {
+            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MapViewController
+            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+            controller.navigationItem.leftItemsSupplementBackButton = true
+        }
     }
-    */
-
 }
