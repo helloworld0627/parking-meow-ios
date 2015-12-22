@@ -23,11 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
         detailViewController.navigationItem.leftItemsSupplementBackButton = true
 
-        // assign delegate
-        let masterNavController = splitViewController.viewControllers.first as! UINavigationController
-        let masterViewController = masterNavController.topViewController as! SearchTableViewController
-        masterViewController.delegate = detailViewController
-
         return true
     }
 

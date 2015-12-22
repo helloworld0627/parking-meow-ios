@@ -9,11 +9,6 @@
 import UIKit
 import MapKit
 
-protocol SearchTableViewControllerDelegate: class {
-    func currentLocationCoordinate() -> CLLocationCoordinate2D?
-    func onSearchResultReturned(result : [ParkingLot]?, error: NSError?)
-}
-
 class SearchTableViewController: UITableViewController {
 
     private let sectionCnt = 2
@@ -28,8 +23,6 @@ class SearchTableViewController: UITableViewController {
     @IBOutlet weak var rate2HrTextField: UITextField!
     @IBOutlet weak var rate3HrTextField: UITextField!
     @IBOutlet weak var rateAllDayTextField: UITextField!
-
-    weak var delegate: SearchTableViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,40 +39,29 @@ class SearchTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func actionForSearch(sender: AnyObject) {
-        let client = ParkingMeowAPIClient.sharedInstance
-        client.includeBusinessHour(ParkingBusinessHour.HourType.MonFri, on: monFriSwitch.on)
-        client.includeBusinessHour(ParkingBusinessHour.HourType.Sat, on: satSwitch.on)
-        client.includeBusinessHour(ParkingBusinessHour.HourType.Sun, on: sunSwitch.on)
+    private func buildGetParkingRequest() -> GetParkingRequest {
+        let request = GetParkingRequest()
+        request.includeBusinessHour(ParkingBusinessHour.HourType.MonFri, on: monFriSwitch.on)
+        request.includeBusinessHour(ParkingBusinessHour.HourType.Sat, on: satSwitch.on)
+        request.includeBusinessHour(ParkingBusinessHour.HourType.Sun, on: sunSwitch.on)
 
         if let text = rate1HrTextField.text, price = Double(text) {
-            client.includeRate(ParkingRate.RateType.OneHour, price: price)
+            request.includeRate(ParkingRate.RateType.OneHour, price: price)
         }
 
         if let text = rate2HrTextField.text, price = Double(text) {
-            client.includeRate(ParkingRate.RateType.TwoHour, price: price)
+            request.includeRate(ParkingRate.RateType.TwoHour, price: price)
         }
 
         if let text = rate3HrTextField.text, price = Double(text) {
-            client.includeRate(ParkingRate.RateType.ThreeHour, price: price)
+            request.includeRate(ParkingRate.RateType.ThreeHour, price: price)
         }
 
         if let text = rateAllDayTextField.text, price = Double(text) {
-            client.includeRate(ParkingRate.RateType.AllDay, price: price)
+            request.includeRate(ParkingRate.RateType.AllDay, price: price)
         }
 
-        if let location = delegate?.currentLocationCoordinate() {
-            client.includeLocation(location)
-        }
-
-        ParkingMeowAPIClient.sharedInstance.getParkingLots()
-            { (parkingLots, error) -> Void in
-                if let error = error {
-                    self.delegate?.onSearchResultReturned(nil, error: error)
-                } else {
-                    self.delegate?.onSearchResultReturned(parkingLots, error: nil)
-                }
-        }
+        return request
     }
 
 

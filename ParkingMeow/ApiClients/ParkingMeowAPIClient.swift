@@ -17,7 +17,6 @@ class ParkingMeowAPIClient {
 
     private let localhost = "http://localhost:3000"
     private let apiPath: String?
-    private var parameters = [String : AnyObject]()
 
     private init() {
         let path = "/parking_lots"
@@ -30,24 +29,7 @@ class ParkingMeowAPIClient {
         self.apiPath = localhost + path
     }
 
-    func includeBusinessHour(hourType: ParkingBusinessHour.HourType, on: Bool) {
-        parameters[hourType.rawValue] = on ? "true" : "false"
-    }
-
-    func includeRate(rateType: ParkingRate.RateType, price: Double) {
-        parameters[rateType.rawValue] = price
-    }
-
-    func includeLocation(coordinate : CLLocationCoordinate2D) {
-        parameters["longtitude"] = coordinate.longitude
-        parameters["latitude"] = coordinate.latitude
-    }
-
-    func reset() {
-        parameters = [String : AnyObject]()
-    }
-
-    func getParkingLots(completion: ((parkingLots : [ParkingLot]?, error : NSError?) -> Void) ) {
+    func getParkingLots(parameters: [String : AnyObject]?, completion: ((parkingLots : [ParkingLot]?, error : NSError?) -> Void) ) {
         debugPrint(parameters)
         guard let apiPath = apiPath else {
             print("api Path is nil")

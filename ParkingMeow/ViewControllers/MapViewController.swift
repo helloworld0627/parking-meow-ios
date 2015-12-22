@@ -79,8 +79,9 @@ class MapViewController: UIViewController {
     }
 
     func searchCenterLocation() {
-        ParkingMeowAPIClient.sharedInstance.includeLocation(mapView.centerCoordinate)
-        ParkingMeowAPIClient.sharedInstance.getParkingLots { (parkingLots, error) -> Void in
+        let request = GetParkingRequest()
+        request.includeLocation(mapView.centerCoordinate)
+        ParkingMeowAPIClient.sharedInstance.getParkingLots(request.parameters) { (parkingLots, error) -> Void in
             self.onSearchResultReturned(parkingLots, error: error)
         }
     }
@@ -122,6 +123,35 @@ class MapViewController: UIViewController {
         button.layer.cornerRadius = defaultButtonRadius
     }
 
+    func onSearchResultReturned(result: [ParkingLot]?, error: NSError?) {
+        if let error = error {
+            print(error)
+            return
+        }
+
+        // clear annotatoins
+        mapView.removeAnnotations(mapView.annotations)
+        // clear overlays
+        mapView.removeOverlays(mapView.overlays)
+        let circleOverlay = MKCircle(centerCoordinate: mapView.centerCoordinate, radius: radius)
+        mapView.addOverlay(circleOverlay)
+        if let parkingLots = result where parkingLots.count > 0 {
+            for parkingLot in parkingLots {
+                mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
+            }
+            currentZoomLevel = defaultZoomLevel
+            mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: currentZoomLevel)
+        } else {
+            let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let alertController = UIAlertController(title: "No Results", message: "Please try another location and/or search criteria.", preferredStyle: .Alert)
+            alertController.addAction(alertAction)
+            presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+
+    func currentLocationCoordinate() -> CLLocationCoordinate2D? {
+        return mapView.centerCoordinate
+    }
 
     // MARK: - Navigation
 
@@ -179,38 +209,6 @@ extension MapViewController : MKMapViewDelegate {
             return renderer
         }
         return MKOverlayRenderer(overlay: overlay)
-    }
-}
-
-extension MapViewController : SearchTableViewControllerDelegate {
-    func onSearchResultReturned(result: [ParkingLot]?, error: NSError?) {
-        if let error = error {
-            print(error)
-            return
-        }
-
-        // clear annotatoins
-        mapView.removeAnnotations(mapView.annotations)
-        // clear overlays
-        mapView.removeOverlays(mapView.overlays)
-        let circleOverlay = MKCircle(centerCoordinate: mapView.centerCoordinate, radius: radius)
-        mapView.addOverlay(circleOverlay)
-        if let parkingLots = result where parkingLots.count > 0 {
-            for parkingLot in parkingLots {
-                mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
-            }
-            currentZoomLevel = defaultZoomLevel
-            mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: currentZoomLevel)
-        } else {
-            let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            let alertController = UIAlertController(title: "No Results", message: "Please try another location and/or search criteria.", preferredStyle: .Alert)
-            alertController.addAction(alertAction)
-            presentViewController(alertController, animated: true, completion: nil)
-        }
-    }
-
-    func currentLocationCoordinate() -> CLLocationCoordinate2D? {
-        return mapView.centerCoordinate
     }
 }
 
