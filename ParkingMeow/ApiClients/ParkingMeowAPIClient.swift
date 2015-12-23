@@ -55,26 +55,3 @@ class ParkingMeowAPIClient {
             }
     }
 }
-
-
-class ParkingGetRequest {
-
-    private(set) var parameters = [String : AnyObject]()
-
-    func includeBusinessHour(hourType: ParkingBusinessHour.HourType, on: Bool) {
-        parameters[hourType.rawValue] = on ? "true" : "false"
-    }
-
-    func includeRate(rateType: ParkingRate.RateType, price: Double) {
-        parameters[rateType.rawValue] = price
-    }
-
-    func includeLocation(coordinate : CLLocationCoordinate2D) {
-        parameters["longtitude"] = coordinate.longitude
-        parameters["latitude"] = coordinate.latitude
-    }
-
-    func reset() {
-        parameters = [String : AnyObject]()
-    }
-}

@@ -9,6 +9,10 @@
 import UIKit
 import MapKit
 
+protocol CoordinateDelegate: class {
+    var coordinate: CLLocationCoordinate2D { get }
+}
+
 class SearchTableViewController: UITableViewController {
 
     private let sectionCnt = 2
@@ -23,6 +27,9 @@ class SearchTableViewController: UITableViewController {
     @IBOutlet weak var rate2HrTextField: UITextField!
     @IBOutlet weak var rate3HrTextField: UITextField!
     @IBOutlet weak var rateAllDayTextField: UITextField!
+
+    // return current location
+    weak var coordinateDelegate: CoordinateDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,29 +46,30 @@ class SearchTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    private func buildParkingGetRequest() -> ParkingGetRequest {
-        let request = ParkingGetRequest()
-        request.includeBusinessHour(ParkingBusinessHour.HourType.MonFri, on: monFriSwitch.on)
-        request.includeBusinessHour(ParkingBusinessHour.HourType.Sat, on: satSwitch.on)
-        request.includeBusinessHour(ParkingBusinessHour.HourType.Sun, on: sunSwitch.on)
-
-        if let text = rate1HrTextField.text, price = Double(text) {
-            request.includeRate(ParkingRate.RateType.OneHour, price: price)
+    private func buildParkingSearchCriteria() -> ParkingSearchCriteria {
+        let criteria = ParkingSearchCriteria()
+        // set coordinate
+        if let coordinateDelegate = coordinateDelegate {
+            criteria.coordinate = coordinateDelegate.coordinate
+        }
+        // business hour
+        criteria.includeBusinessHour(ParkingBusinessHour.HourType.MonFri, on: monFriSwitch.on)
+        criteria.includeBusinessHour(ParkingBusinessHour.HourType.Sat, on: satSwitch.on)
+        criteria.includeBusinessHour(ParkingBusinessHour.HourType.Sun, on: sunSwitch.on)
+        // rates
+        let tuples = [
+            (ParkingRate.RateType.OneHour, rate1HrTextField),
+            (ParkingRate.RateType.TwoHour, rate2HrTextField),
+            (ParkingRate.RateType.ThreeHour, rate3HrTextField),
+            (ParkingRate.RateType.AllDay, rateAllDayTextField)
+        ]
+        for tuple in tuples {
+            if let text = tuple.1.text, price = Double(text) {
+                criteria.includeRate(tuple.0, price: price)
+            }
         }
 
-        if let text = rate2HrTextField.text, price = Double(text) {
-            request.includeRate(ParkingRate.RateType.TwoHour, price: price)
-        }
-
-        if let text = rate3HrTextField.text, price = Double(text) {
-            request.includeRate(ParkingRate.RateType.ThreeHour, price: price)
-        }
-
-        if let text = rateAllDayTextField.text, price = Double(text) {
-            request.includeRate(ParkingRate.RateType.AllDay, price: price)
-        }
-
-        return request
+        return criteria
     }
 
 
@@ -131,11 +139,12 @@ class SearchTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "showDetail" {
-            let request = buildParkingGetRequest()
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MapViewController
-            controller.parkingGetRequest = request
             controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
+            controller.predefinedSearchCriteria = buildParkingSearchCriteria()
+            // assign delegate to new controller
+            coordinateDelegate = controller
         }
     }
 }

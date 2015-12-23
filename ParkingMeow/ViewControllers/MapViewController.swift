@@ -31,10 +31,11 @@ class MapViewController: UIViewController {
     private var currentZoomLevel: Int = 13
 
     // does not work if defined in method
-    private let locationManager = CLLocationManager()
+    private var locationManager: CLLocationManager?
     private var selectedParkingLot: ParkingLot?
 
-    var parkingGetRequest: ParkingGetRequest?
+    //
+    var predefinedSearchCriteria: ParkingSearchCriteria?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,15 +43,6 @@ class MapViewController: UIViewController {
 
         // set mapViewDelegate
         mapView.delegate = self
-
-        // location service should be enabled all the time
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.requestWhenInUseAuthorization()
-        } else {
-            // should not happen
-            print("CLLocationManager is not enabled.")
-        }
 
         // config button icons
         configAwesomeIconButton(centerLocationButton, icon: FAIcon.FALocationArrow)
@@ -62,6 +54,26 @@ class MapViewController: UIViewController {
         searchButton.addTarget(self, action: "searchCenterLocation", forControlEvents: .TouchUpInside)
         zoomInButton.addTarget(self, action: "zoomInFromCenterLocation", forControlEvents: .TouchUpInside)
         zoomOutButton.addTarget(self, action: "zoomOutFromCenterLocation", forControlEvents: .TouchUpInside)
+
+        /* handle predefinedSearchCriteria from master view, if any*/
+        if let criteria = predefinedSearchCriteria where criteria.coordinate != nil {
+            performSearch(criteria)
+        }
+
+        // prepare location
+        let authStatus = CLLocationManager.authorizationStatus()
+        if authStatus == .Restricted || authStatus == .Denied {
+            print("TODO pop alert box ask user to enable")
+            return
+        } else {
+            // .AuthorizedWhenInUse or .AuthorizedAlways or .NotDetermined
+            locationManager = CLLocationManager()
+            locationManager?.delegate = self
+            if authStatus == .NotDetermined {
+                // only work for NotDetermined status. see doc
+                locationManager?.requestWhenInUseAuthorization()
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -69,25 +81,27 @@ class MapViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+
+    // MARK: - Button actions
+
     func centerUserLocation() {
         if let location = mapView.userLocation.location {
-            mapView.setCenterCoordinate(location.coordinate, animated: true, zoomLevel: defaultZoomLevel)
+            mapView.setCenterCoordinate(location.coordinate, animated: false, zoomLevel: defaultZoomLevel)
         } else {
             let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             let alertController = UIAlertController(title: "Location Access Failed", message: nil, preferredStyle: .Alert)
             alertController.addAction(alertAction)
-            presentViewController(alertController, animated: true, completion: nil)
+            presentViewController(alertController, animated: false, completion: nil)
         }
     }
 
     func searchCenterLocation() {
-        if parkingGetRequest == nil {
-            parkingGetRequest = ParkingGetRequest()
+        var searchCriteria: ParkingSearchCriteria? = predefinedSearchCriteria
+        if predefinedSearchCriteria == nil {
+            searchCriteria = ParkingSearchCriteria()
         }
-        parkingGetRequest?.includeLocation(mapView.centerCoordinate)
-        ParkingMeowAPIClient.sharedInstance.getParkingLots(parkingGetRequest?.parameters) { (parkingLots, error) -> Void in
-            self.onSearchResultReturned(parkingLots, error: error)
-        }
+        searchCriteria?.coordinate = mapView.centerCoordinate
+        performSearch(searchCriteria!)
     }
 
     func zoomInFromCenterLocation() {
@@ -108,12 +122,12 @@ class MapViewController: UIViewController {
         zoomMapView(currentZoomLevel)
     }
 
-    private func zoomMapView(zoomLevel: Int) {
-        mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: zoomLevel)
-    }
-
     func showParkingDetailsTableViewController(sender : UIButton) {
         performSegueWithIdentifier("showDetails", sender: self)
+    }
+
+    private func zoomMapView(zoomLevel: Int) {
+        mapView.setCenterCoordinate(mapView.centerCoordinate, animated: false, zoomLevel: zoomLevel)
     }
 
 
@@ -127,35 +141,38 @@ class MapViewController: UIViewController {
         button.layer.cornerRadius = defaultButtonRadius
     }
 
-    func onSearchResultReturned(result: [ParkingLot]?, error: NSError?) {
-        if let error = error {
-            print(error)
-            return
-        }
+    private func performSearch(parkingSearchCriteria: ParkingSearchCriteria) {
+        ParkingMeowAPIClient.sharedInstance.getParkingLots(parkingSearchCriteria.requestParameters) {
+            (parkingLots, error) -> Void in
 
-        // clear annotatoins
-        mapView.removeAnnotations(mapView.annotations)
-        // clear overlays
-        mapView.removeOverlays(mapView.overlays)
-        let circleOverlay = MKCircle(centerCoordinate: mapView.centerCoordinate, radius: radius)
-        mapView.addOverlay(circleOverlay)
-        if let parkingLots = result where parkingLots.count > 0 {
-            for parkingLot in parkingLots {
-                mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
+            let coordinate = parkingSearchCriteria.coordinate!
+            let mapView = self.mapView
+            // clean up UI
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.removeOverlays(mapView.overlays)
+            // add circle overlay
+            mapView.addOverlay(MKCircle(centerCoordinate: coordinate, radius: self.radius))
+
+            if let error = error {
+                print(error)
+                return
             }
-            currentZoomLevel = defaultZoomLevel
-            mapView.setCenterCoordinate(mapView.centerCoordinate, animated: true, zoomLevel: currentZoomLevel)
-        } else {
-            let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            let alertController = UIAlertController(title: "No Results", message: "Please try another location and/or search criteria.", preferredStyle: .Alert)
-            alertController.addAction(alertAction)
-            presentViewController(alertController, animated: true, completion: nil)
+
+            self.currentZoomLevel = self.defaultZoomLevel
+            mapView.setCenterCoordinate(coordinate, animated: false, zoomLevel: self.currentZoomLevel)
+            if let parkingLots = parkingLots where parkingLots.count > 0 {
+                for parkingLot in parkingLots {
+                    mapView.addAnnotation(ParkingLotAnnotation(parkingLot: parkingLot))
+                }
+            } else {
+                let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                let alertController = UIAlertController(title: "No Results", message: "Please try another location and/or search criteria.", preferredStyle: .Alert)
+                alertController.addAction(alertAction)
+                self.presentViewController(alertController, animated: false, completion: nil)
+            }
         }
     }
 
-    func currentLocationCoordinate() -> CLLocationCoordinate2D? {
-        return mapView.centerCoordinate
-    }
 
     // MARK: - Navigation
 
@@ -172,6 +189,18 @@ class MapViewController: UIViewController {
         }
     }
 }
+
+
+// MARK: - CoordinateDelegate
+
+extension MapViewController: CoordinateDelegate {
+    var coordinate: CLLocationCoordinate2D {
+        return mapView.centerCoordinate
+    }
+}
+
+
+// MARK: - MKMapViewDelegate
 
 extension MapViewController : MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -216,13 +245,19 @@ extension MapViewController : MKMapViewDelegate {
     }
 }
 
-extension MapViewController : CLLocationManagerDelegate {
+
+// MARK: - CLLocationManagerDelegate
+
+extension MapViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
-            manager.startUpdatingLocation()
-            mapView.showsUserLocation = (status == .AuthorizedWhenInUse)
+            mapView.showsUserLocation = true
+            // ensure locaton service enabled; otherwise error occurs on delegate
+            if CLLocationManager.locationServicesEnabled() {
+                manager.startUpdatingLocation()
+            }
         } else {
-            print("CLAuthorizationStatus is \(status).")
+            print("CLAuthorizationStatus is \(status.rawValue).")
         }
     }
 
@@ -230,19 +265,23 @@ extension MapViewController : CLLocationManagerDelegate {
         if locations.count > 0 {
             let locCoord = locations[0].coordinate
             let userLocCoord = mapView.userLocation.coordinate
-            if userLocCoord.latitude == locCoord.latitude
-                && userLocCoord.longitude == locCoord.longitude {
+            // if updateLocation is current user location
+            if userLocCoord.latitude == locCoord.latitude && userLocCoord.longitude == locCoord.longitude {
+                // avoid recursively calling this
+                manager.stopUpdatingLocation()
+                if predefinedSearchCriteria == nil {
                     currentZoomLevel = defaultZoomLevel
-                    mapView.setCenterCoordinate(userLocCoord, animated: true, zoomLevel: currentZoomLevel)
-                    // avoid recursively calling this after map center is updated
-                    manager.stopUpdatingLocation()
+                    mapView.setCenterCoordinate(userLocCoord, animated: false, zoomLevel: currentZoomLevel)
+                }
             }
         }
     }
 }
 
 
-class ParkingLotAnnotation : NSObject, MKAnnotation {
+// MARK: - MKAnnotation
+
+class ParkingLotAnnotation: NSObject, MKAnnotation {
 
     let parkingLot : ParkingLot
     init(parkingLot : ParkingLot) {
