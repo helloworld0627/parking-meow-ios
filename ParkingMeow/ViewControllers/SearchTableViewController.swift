@@ -39,8 +39,8 @@ class SearchTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    private func buildGetParkingRequest() -> GetParkingRequest {
-        let request = GetParkingRequest()
+    private func buildParkingGetRequest() -> ParkingGetRequest {
+        let request = ParkingGetRequest()
         request.includeBusinessHour(ParkingBusinessHour.HourType.MonFri, on: monFriSwitch.on)
         request.includeBusinessHour(ParkingBusinessHour.HourType.Sat, on: satSwitch.on)
         request.includeBusinessHour(ParkingBusinessHour.HourType.Sun, on: sunSwitch.on)
@@ -131,7 +131,9 @@ class SearchTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "showDetail" {
+            let request = buildParkingGetRequest()
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! MapViewController
+            controller.parkingGetRequest = request
             controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
         }

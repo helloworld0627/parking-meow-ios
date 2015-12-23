@@ -21,18 +21,20 @@ class MapViewController: UIViewController {
     @IBOutlet weak var zoomOutButton: UIButton!
 
     // UIButton
-    let defaultButtonBGColor = UIColor.blackColor()
-    let defaultButtonRadius : CGFloat = 5.0
-    let awesomeFontAttriute = [NSFontAttributeName : UIFont(awesomeFontOfSize: 20.0)!]
+    private let defaultButtonBGColor = UIColor.blackColor()
+    private let defaultButtonRadius : CGFloat = 5.0
+    private let awesomeFontAttriute = [NSFontAttributeName : UIFont(awesomeFontOfSize: 20.0)!]
 
     // set as 1 mile for now
-    let radius = 1600.0
-    let defaultZoomLevel = 13
-    var currentZoomLevel: Int = 13
+    private let radius = 1600.0
+    private let defaultZoomLevel = 13
+    private var currentZoomLevel: Int = 13
 
     // does not work if defined in method
-    let locationManager = CLLocationManager()
-    var selectedParkingLot : ParkingLot?
+    private let locationManager = CLLocationManager()
+    private var selectedParkingLot: ParkingLot?
+
+    var parkingGetRequest: ParkingGetRequest?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,9 +81,11 @@ class MapViewController: UIViewController {
     }
 
     func searchCenterLocation() {
-        let request = GetParkingRequest()
-        request.includeLocation(mapView.centerCoordinate)
-        ParkingMeowAPIClient.sharedInstance.getParkingLots(request.parameters) { (parkingLots, error) -> Void in
+        if parkingGetRequest == nil {
+            parkingGetRequest = ParkingGetRequest()
+        }
+        parkingGetRequest?.includeLocation(mapView.centerCoordinate)
+        ParkingMeowAPIClient.sharedInstance.getParkingLots(parkingGetRequest?.parameters) { (parkingLots, error) -> Void in
             self.onSearchResultReturned(parkingLots, error: error)
         }
     }

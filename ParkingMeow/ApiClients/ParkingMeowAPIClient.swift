@@ -57,7 +57,7 @@ class ParkingMeowAPIClient {
 }
 
 
-class GetParkingRequest {
+class ParkingGetRequest {
 
     private(set) var parameters = [String : AnyObject]()
 
