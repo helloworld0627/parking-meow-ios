@@ -120,7 +120,7 @@
             </objects>
             <point key="canvasLocation" x="1757" y="81"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Search-->
         <scene sceneID="Kd7-fG-0VE">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="ht0-L0-o1y" customClass="SearchTableViewController" customModule="ParkingMeow" customModuleProvider="target" sceneMemberID="viewController">
@@ -378,8 +378,8 @@
                             <outlet property="delegate" destination="ht0-L0-o1y" id="9kg-Bj-55l"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="7am-Ix-II5">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="dg2-7E-sZq">
+                    <navigationItem key="navigationItem" title="Search" id="7am-Ix-II5">
+                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="done" id="dg2-7E-sZq">
                             <connections>
                                 <segue destination="gpc-11-ioy" kind="showDetail" identifier="showDetail" id="1u9-Z1-Qv3"/>
                             </connections>
