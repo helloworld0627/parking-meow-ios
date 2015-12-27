@@ -34,6 +34,9 @@ class SearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        monFriSwitch.on = false
+        satSwitch.on = false
+        sunSwitch.on = false
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -53,17 +56,24 @@ class SearchTableViewController: UITableViewController {
             criteria.coordinate = coordinateDelegate.coordinate
         }
         // business hour
-        criteria.includeBusinessHour(ParkingBusinessHour.HourType.MonFri, on: monFriSwitch.on)
-        criteria.includeBusinessHour(ParkingBusinessHour.HourType.Sat, on: satSwitch.on)
-        criteria.includeBusinessHour(ParkingBusinessHour.HourType.Sun, on: sunSwitch.on)
+        let bizHourTuples = [
+            (ParkingBusinessHour.HourType.MonFri, monFriSwitch.on),
+            (ParkingBusinessHour.HourType.Sat, satSwitch.on),
+            (ParkingBusinessHour.HourType.Sun, sunSwitch.on),
+        ]
+        for tuple in bizHourTuples {
+            if tuple.1 {
+                criteria.includeBusinessHour(tuple.0, on: true)
+            }
+        }
         // rates
-        let tuples = [
+        let rateTuples = [
             (ParkingRate.RateType.OneHour, rate1HrTextField),
             (ParkingRate.RateType.TwoHour, rate2HrTextField),
             (ParkingRate.RateType.ThreeHour, rate3HrTextField),
             (ParkingRate.RateType.AllDay, rateAllDayTextField)
         ]
-        for tuple in tuples {
+        for tuple in rateTuples {
             if let text = tuple.1.text, price = Double(text) {
                 criteria.includeRate(tuple.0, price: price)
             }
