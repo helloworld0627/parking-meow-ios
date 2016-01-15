@@ -142,8 +142,24 @@ class MapViewController: UIViewController {
     }
 
     private func performSearch(parkingSearchCriteria: ParkingSearchCriteria) {
+
+        let spinnerContainer = UIView(frame: mapView.frame)
+        spinnerContainer.backgroundColor = UIColor.grayColor()
+        spinnerContainer.alpha = 0.5
+        view.addSubview(spinnerContainer)
+
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        let center = CGPointMake(CGRectGetMidX(view.bounds), CGRectGetMidY(view.bounds))
+        activityIndicator.center = center
+        spinnerContainer.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+
         ParkingMeowAPIClient.sharedInstance.getParkingLots(parkingSearchCriteria.requestParameters) {
             (parkingLots, error) -> Void in
+
+            defer {
+                spinnerContainer.removeFromSuperview()
+            }
 
             let coordinate = parkingSearchCriteria.coordinate!
             let mapView = self.mapView
